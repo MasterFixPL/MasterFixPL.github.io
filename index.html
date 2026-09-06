@@ -193,54 +193,38 @@
         </div>
     </footer>
 
-    <!-- SKRYPT BEZPOŚREDNIEJ WYSYŁKI AJAX DO WEB3FORMS (BEZ PRZEKIEROWANIA) -->
-    <script>
-        document.getElementById('valuationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const form = e.target;
-            const btn = document.getElementById('submitBtn');
-            const feedback = document.getElementById('formFeedback');
-            
-            btn.disabled = true;
-            btn.textContent = "Wysyłanie...";
-            
-            const formData = new FormData(form);
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
-            
-            fetch('https://app.web3forms.com', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: json
-            })
-            .then(async (response) => {
-                let res = await response.json();
-                if (response.status == 200) {
-                    feedback.textContent = "Dziękujemy! Zgłoszenie zostało wysłane. Oddzwonimy w 15 minut!";
-                    feedback.className = "form-feedback success";
-                    form.reset();
-                } else {
-                    feedback.textContent = "Coś poszło nie tak: " + res.message;
-                    feedback.className = "form-feedback error";
-                }
-            })
-            .catch(error => {
-                feedback.textContent = "Błąd sieci. Spróbuj ponownie później.";
-                feedback.className = "form-feedback error";
-            })
-            .then(() => {
-                btn.disabled = false;
-                btn.textContent = "Wyślij zgłoszenie";
-                setTimeout(() => {
-                    feedback.className = "form-feedback hidden";
-                }, 6000);
-            });
-        });
-    </script>
+   <div class="contact-form-box">
+    <h2>Szybka wycena online</h2>
+    <p>Zostaw dane, oddzwonimy w 15 minut!</p>
+    
+    <!-- Czysty formularz bez żadnego JavaScriptu - dokładnie jak w Twoim przykładzie -->
+    <form action="https://api.web3forms.com/submit" method="POST" id="valuationForm">
+        
+        <!-- Twój klucz Access Key -->
+        <input type="hidden" name="access_key" value="a41a39d0-6fcb-419d-8a95-b51309a90963">
+        
+        <!-- Przekierowanie na oficjalną, zieloną stronę sukcesu Web3Forms po wysłaniu -->
+        <input type="hidden" name="redirect" value="https://web3forms.com">
+
+        <div class="form-group">
+            <label for="deviceModel">Model sprzętu</label>
+            <input type="text" name="Model sprzętu" id="deviceModel" placeholder="np. iPhone 13, Asus ZenBook" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="issueDescription">Co się dzieje?</label>
+            <textarea name="Opis usterki" id="issueDescription" placeholder="np. pęknięta szyba, nie włącza się" rows="3" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="phoneNumber">Numer telefonu</label>
+            <input type="tel" name="Numer telefonu" id="phoneNumber" placeholder="np. 123 456 789" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block">Wyślij zgłoszenie</button>
+    </form>
+</div>
+
 
 
 
